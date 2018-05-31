@@ -1,0 +1,52 @@
+# This file is generated from information provided by
+# the datasource.  Changes to it will not persist across an instance.
+# To disable cloud-init's network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eports:
+      match:
+        name: eno*
+    enp3s0f0:
+      dhcp4: false
+    enp3s0f1:
+      dhcp4: false
+    enp3s0f2:
+      dhcp4: false
+    enp3s0f3:
+      dhcp4: false
+  bonds:
+    bond0:
+      interfaces: [eports]
+      addresses: [192.168.1.31/24]
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [114.114.114.114,]
+      parameters:
+        mode: 802.3ad
+        lacp-rate: fast
+        mii-monitor-interval: 100
+
+  bonds:
+    bond1:
+      interfaces:
+        - enp3s0f0
+        - enp3s0f1
+      addresses: [192.168.2.31/24]
+      parameters:
+        mode: 802.3ad
+        lacp-rate: fast
+        mii-monitor-interval: 100
+
+  bonds:
+    bond2:
+      interfaces:
+        - enp3s0f2
+        - enp3s0f3
+      parameters:
+        mode: 802.3ad
+        lacp-rate: fast
+        mii-monitor-interval: 100
